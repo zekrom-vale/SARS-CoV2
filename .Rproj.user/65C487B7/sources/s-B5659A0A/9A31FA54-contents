@@ -1,0 +1,20 @@
+---
+title: "check in 4/16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Project is at https://rstudio.cloud/project/1163455
+
+1.) I did not spend much time on exercises, although I did a refresher on plotly as I wanted to include animated maps that took about 15 minutes.  I forgot the aesthetics used to animate.
+
+2.) I spent around 3 hours working on the project.  Instead of manually downloading the data, I used `download.file()` to get the data automatically.  I also found out how to get all the files from GitHub, although it's just downloading a zip and extracting it and not pulling it.
+
+I was able to extract the data from HDX by simple `read_csv()` functions, the data from CSSEGI was harder to get.  At first I tried to loop though `read_csv()` then pass it to `bind_rows()`, but that failed as r does not guarantee standard date formats and I can see why now with the data.  I instead used `ldply()` to read all the `.csv` files in a folder and that worked better as it removed a loop function.  Although, I did not like that it is older.
+
+As I went to plot the country data I found that plotly was trying to animate it my morphing the continents as there is missing data.  I will need to clean the data up to prevent this from happening and likely taking 5 minutes to generate.  Tryign to graph the countries I found out that the date time does not have one standard syntax, preventing it form being converted to the POSIXct standard.  I also found some odd places like Unknown Location, MA; Unassigned Location, VT; Unassigned Location, WA; and Unassigned Location (From Diamond Princess).
+
+3.) In the next check in I hope to have part of the data clean up done. I will also have to make sure there is no other data anomalies to prevent issues down the road.  I will not try to graph any more before these issues are fixed as there will be little progress.

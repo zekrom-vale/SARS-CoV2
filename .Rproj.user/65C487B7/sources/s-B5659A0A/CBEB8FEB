@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1587152825601.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CBEB8FEB",
+    "lastKnownWriteTime" : 1587345724,
+    "last_content_update" : 1587345724915,
+    "path" : "~/R/SARS-CoV2/clean.Rmd",
+    "project_path" : "clean.Rmd",
+    "properties" : {
+        "cursorPosition" : "146,0",
+        "last_setup_crc32" : "",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

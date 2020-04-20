@@ -1,0 +1,9 @@
+{
+    "path" : "~/R/SARS-CoV2/HDX",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

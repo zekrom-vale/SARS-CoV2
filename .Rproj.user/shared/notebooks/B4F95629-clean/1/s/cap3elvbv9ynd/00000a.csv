@@ -1,0 +1,6 @@
+"0","predict%>%
+	dplyr::inner_join(predicted)
+"
+"2","Error in UseMethod(""tbl_vars"") : 
+  no applicable method for 'tbl_vars' applied to an object of class ""c('array', 'double', 'numeric')""
+"

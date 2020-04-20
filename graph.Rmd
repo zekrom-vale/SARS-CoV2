@@ -1,0 +1,63 @@
+---
+title: "Graph"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r lib, include=FALSE}
+library(plotly);
+library(USAboundaries);
+library(rnaturalearth);
+```
+
+```{r}
+collection=ne_countries(returnclass="sf")%>%
+	inner_join(HDXCountry, by=c(name="ADM0_NAME"));
+collection%>%
+	ggplot()+
+	geom_sf(aes(fill=cum_conf, frame=DateOfReport, ids=name));
+ggplotly();
+```
+
+
+```{r}
+collection=us_boundaries()%>%
+	inner_join(data[[2]], by=c("state_name"="Province_State"));
+
+collection%>%
+	ggplot()+
+	geom_sf(aes(fill=Confirmed, frame=Last_Update));
+ggplotly();
+```
+
+This takes forever as plotly is confused and shifts the countries around as there is missing data.
+```{r}
+collection=ne_countries(returnclass="sf")%>%
+	left_join(data[[1]], by=c("name"="Country/Region"))
+
+collection%>%
+	ggplot()+
+	geom_sf(aes(fill=Confirmed, frame=`Last Update`, ids=name));
+ggplotly()%>%
+	animation_opts(
+		redraw=FALSE
+	);
+```
+
+```{r}
+data[[1]]%>%
+	filter(str_detect(`Province/State`, "U.*"))%>%
+	mutate(
+		`Province/State`=`Province/State`%>%
+			lubridate::dmy_hms()
+	)%>%
+	ggplot(aes(`Last Update`, Confirmed))+
+	geom_col()+
+	facet_wrap(~`Province/State`)+
+	scale_x_datetime();
+```
+
+This is a mess!!!!

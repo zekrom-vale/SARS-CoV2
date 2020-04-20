@@ -1,0 +1,7 @@
+"0","collection=us_boundaries()%>%"
+"0","	inner_join(data[[2]], by=c(""state_name""=""Province_State""));"
+"0",""
+"0","collection%>%"
+"0","	ggplot()+"
+"0","	geom_sf(aes(fill=Confirmed, frame=Last_Update));"
+"2","Ignoring unknown aesthetics: frame"

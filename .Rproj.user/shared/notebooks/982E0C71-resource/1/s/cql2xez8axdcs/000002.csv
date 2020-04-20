@@ -1,0 +1,27 @@
+"0","download.file(""https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=0&single=true&output=csv"", ""HDX/covid-19 cases by country.csv"");"
+"2","trying URL 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=0&single=true&output=csv'
+"
+"2","Content type 'text/csv'"
+"2"," length unknown
+"
+"2","downloaded 31 KB
+
+"
+"0","download.file(""https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=32379430&single=true&output=csv"", ""HDX/covid-19 historical cases by country.csv"");"
+"2","trying URL 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=32379430&single=true&output=csv'
+"
+"2","Content type 'text/csv'"
+"2"," length unknown
+"
+"2","downloaded 1.4 MB
+
+"
+"0","download.file(""https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=406425546&single=true&output=csv"", ""HDX/covid-19 china cases by adm 1.csv"");"
+"2","trying URL 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=406425546&single=true&output=csv'
+"
+"2","Content type 'text/csv'"
+"2"," length unknown
+"
+"2","downloaded 6340 bytes
+
+"

@@ -1,0 +1,60 @@
+---
+title: "Resources"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r lib, include=FALSE}
+library(plyr);
+library(tidyverse);
+library(lubridate);
+```
+
+# Download and load Covid-19 Data from [HDX](https://data.humdata.org/dataset/coronavirus-covid-19-cases-data-for-china-and-the-rest-of-the-world)
+
+```{r download}
+download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=0&single=true&output=csv", "HDX/covid-19 cases by country.csv");
+
+download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=32379430&single=true&output=csv", "HDX/covid-19 historical cases by country.csv");
+
+download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=406425546&single=true&output=csv", "HDX/covid-19 china cases by adm 1.csv");
+```
+
+# Download [2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)
+[How to download entire repository from Github using R?](https://stackoverflow.com/questions/48612676/how-to-download-entire-repository-from-github-using-r/48614528)
+```{r download CSSEGI Data}
+download.file(url="https://github.com/CSSEGISandData/COVID-19/archive/master.zip", "CSSEGISandData COVID-19.zip");
+
+unzip(zipfile="CSSEGISandData COVID-19.zip");
+
+file.remove("CSSEGISandData COVID-19.zip");
+```
+
+# Load HDX Data
+```{r load}
+HDXCountry=read_csv("HDX/covid-19 cases by country.csv");
+HDXChina=read_csv("HDX/covid-19 china cases by adm 1.csv");
+HDXHistorical=read_csv("HDX/covid-19 historical cases by country.csv");
+```
+
+# Load CSSEGI Data
+Combine data into one tibble with [`ldply()` and `read_csv()`](https://datascienceplus.com/how-to-import-multiple-csv-files-simultaneously-in-r-and-create-a-data-frame/)
+```{r load CSSEGI, message=FALSE}
+paths=list.dirs("COVID-19-master/csse_covid_19_data", full.names=TRUE, recursive=FALSE);
+
+data=list();
+for(p in 1:length(paths)){
+	files=list.files(path=paths[p], pattern=".csv", full.names=TRUE);
+	data[[p]]=ldply(files, read_csv)%>%
+		as_tibble();
+}
+```
+
+```{r}
+data[[1]];
+data[[2]];
+data[[3]];
+```

@@ -1,0 +1,6 @@
+"0","collection%>%
+	ggplot()+
+	geom_sf(aes(fill=Confirmed, frame=`Last Update`, ids=name));
+"
+"2","Error in eval(lhs, parent, parent) : object 'collection' not found
+"

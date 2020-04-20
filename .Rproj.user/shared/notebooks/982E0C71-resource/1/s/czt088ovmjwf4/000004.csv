@@ -1,0 +1,8 @@
+"0","paths=list.dirs(""COVID-19-master/csse_covid_19_data"", full.names=TRUE, recursive=FALSE);"
+"0",""
+"0","data=list();"
+"0","for(p in 1:length(paths)){"
+"0","	files=list.files(path=paths[p], pattern="".csv"", full.names=TRUE);"
+"0","	data[[p]]=ldply(files, read_csv)%>%"
+"0","		as_tibble();"
+"0","}"

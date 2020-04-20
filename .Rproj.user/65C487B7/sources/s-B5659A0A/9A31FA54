@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1587085244934.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9A31FA54",
+    "lastKnownWriteTime" : 1587086882,
+    "last_content_update" : 1587086882638,
+    "path" : "~/R/SARS-CoV2/checkin4.16.Rmd",
+    "project_path" : "checkin4.16.Rmd",
+    "properties" : {
+        "cursorPosition" : "15,243",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

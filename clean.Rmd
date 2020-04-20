@@ -1,0 +1,146 @@
+---
+title: "Clean"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Fix column missnaming
+```{r}
+data[[1]]%>%
+	filter(!is.na(Country_Region));
+```
+Yes, there are some data that is formated incorectly
+
+```{r}
+data[[1]]=data[[1]]%>%
+	mutate(
+		`Country/Region`=if_else(
+			is.na(
+				Country_Region
+			),
+			`Country/Region`,
+			Country_Region
+		)%>%
+			as.factor(),
+		Country_Region=NULL,
+		`Province/State`=if_else(
+			is.na(
+				Province_State
+			),
+			`Province/State`,
+			Province_State
+		)%>%
+			as.factor(),
+		Province_State=NULL,
+		`Last Update`=if_else(
+			is.na(
+				Last_Update
+			),
+			`Last Update`,
+			Last_Update
+		),
+		Last_Update=NULL,
+		Combined_Key=NULL,
+		Lat=if_else(
+			is.na(
+				Lat
+			),
+			Latitude,
+			Lat
+		),
+		Latitude=NULL,
+		Lon=if_else(
+			is.na(
+				Long_
+			),
+			Longitude,
+			Long_
+		),
+		Longitude=NULL,
+		Long_=NULL,
+		Confirmed=as.integer(Confirmed),
+		Deaths=as.integer(Deaths),
+		Recovered=as.integer(Recovered)
+	);
+```
+
+
+# Fix Last Update
+```{r}
+CSSEGIcountry=data[[1]]%>%
+	filter(str_detect(`Last Update`,".*/.*"))%>%
+	mutate(`Last Update`=lubridate::mdy_hm(`Last Update`));
+
+CSSEGIcountry=data[[1]]%>%
+	filter(str_detect(`Last Update`,".*-.*"))%>%
+	mutate(`Last Update`=lubridate::ymd_hms(`Last Update`))%>%
+	dplyr::union(CSSEGIcountry)%>%
+	mutate(
+		date=lubridate::as_date(`Last Update`)
+	);
+```
+
+# Standardise data for US Data
+```{r}
+CSSEGIus=data[[2]]%>%
+	mutate(
+		Lon=Long_,
+		Long_=NULL,
+		`Province/State`=as.factor(Province_State),
+		Province_State=NULL,
+		`Country/Region`=as.factor(Country_Region),
+		Country_Region=NULL,
+		`Last Update`=Last_Update,
+		Last_Update=NULL,
+		date=lubridate::as_date(`Last Update`)
+	);
+```
+
+# Add missing data
+We need to predict each value that is unreported.  To do this let's plot them on a line graph.
+
+```{r}
+CSSEGIcountry%>%
+	ggplot(aes(
+		date,
+		Confirmed,
+		col=paste(`Province/State`, `Country/Region`)
+	))+
+	geom_point(show.legend=FALSE)+
+	#geom_line(show.legend=FALSE)+
+	geom_smooth(show.legend=FALSE, na.rm=TRUE, method=mgcv::gam, se=FALSE);
+```
+
+```{r}
+predict=CSSEGIcountry%>%
+	mutate(name=paste(`Province/State`, `Country/Region`))%>%
+	group_by(name);
+
+prdCon=predict%>%
+	mgcv::gam(data=.,formula=Confirmed~date+name);
+
+prdDea=predict%>%
+	mgcv::gam(data=.,formula=Deaths~date+name);
+
+prdRec=predict%>%
+	mgcv::gam(data=.,formula=Recovered~date+name);
+```
+
+```{r}
+predicted=mgcv::predict.gam(prdCon, predict);
+```
+
+That works, just need to merge the data.  We can use ids and join on them.
+
+
+
+Is there any NAs?
+```{r}
+CSSEGIcountry%>%
+	filter(is.na(Confirmed))
+```
+Not that many, but that does not show the true missing gaps.
+

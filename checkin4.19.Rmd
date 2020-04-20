@@ -1,0 +1,20 @@
+---
+title: "Check in 4/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1.) I have not spent any time on practice as I did not need to use dplyr's utilities.  I did have some issues with lubridate as I tought it would automaticaly detect the multiple date time syntaxes with `as_datetime()`, so instead I had to filter and manualy use the `ymd_hm()` and `mdy_hms()` functions anlong with `filter` and `union`.
+
+2.) I spent around 3 to 4 hours cleaning up the data.  I found some quarks with the data, including date time syntax varations and changes in naming conventions.  One naming syntax used `_` as deliminators to be `r` friendy and the other just used whatever, ` ` and `/`.  This was an issue as I found missing data, but with this found out perhapse there is no more missing data.
+
+Some opservations even had extra data, some of witch I do not know what it is.  I will keep that data there incase it becomes usesful at a later date.
+
+I also started expareminting with linear approximvation with `mgcv::gam()` and will use `mgcv::predict.gam()` to predict the missing data.  
+
+Some issues I have encounterd, and one right now in r.  I can't use the arrow keys right now.  I will have to restart r or even RStudio to get them working.  When correcting the character datetime into a date, I was having issues with the automatic corausion as it did not like multiple formats.  I had to use `filter()` and `union()` to correct the data.  Also, working with the approximations, I was kind of bummed that I did not get it with polynomials.
+
+3.) Next time I hope to get the data cleaning almost done if not done.  I want to be able to produce some graphs and visulizations to see what the data looks like.

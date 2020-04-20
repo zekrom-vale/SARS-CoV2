@@ -1,0 +1,59 @@
+"0","HDXCountry=read_csv(""HDX/covid-19 cases by country.csv"");"
+"2","Parsed with column specification:
+cols(
+  ADM0_NAME = [31mcol_character()[39m,
+  DateOfReport = [34mcol_datetime(format = """")[39m,
+  cum_conf = [32mcol_double()[39m,
+  cum_death = [32mcol_double()[39m,
+  ID = [32mcol_double()[39m,
+  CENTER_LON = [32mcol_double()[39m,
+  CENTER_LAT = [32mcol_double()[39m,
+  ADM0_VIZ_NAME = [31mcol_character()[39m,
+  Short_Name_ZH = [31mcol_character()[39m,
+  Short_Name_FR = [31mcol_character()[39m,
+  Short_Name_ES = [31mcol_character()[39m,
+  Short_Name_RU = [31mcol_character()[39m,
+  Short_Name_AR = [31mcol_character()[39m
+)
+"
+"0","HDXChina=read_csv(""HDX/covid-19 china cases by adm 1.csv"");"
+"2","Parsed with column specification:
+cols(
+  ADM0_NAME = [31mcol_character()[39m,
+  ADM1_NAME = [31mcol_character()[39m,
+  DateOfReport = [34mcol_datetime(format = """")[39m,
+  DateOfDataEntry = [34mcol_datetime(format = """")[39m,
+  new_conf = [32mcol_double()[39m,
+  cum_conf = [32mcol_double()[39m,
+  cum_death = [32mcol_double()[39m,
+  EPIWeek = [32mcol_double()[39m,
+  EPIYear = [32mcol_double()[39m,
+  ID = [32mcol_double()[39m,
+  VIZ_NAME = [31mcol_character()[39m,
+  GUID = [31mcol_character()[39m,
+  ADM1_NAME_ZH = [31mcol_character()[39m,
+  ADM1_VIZNAME_FR = [31mcol_character()[39m,
+  ADM1_VIZNAME_ES = [31mcol_character()[39m,
+  ADM1_VIZNAME_RU = [31mcol_character()[39m,
+  ADM1_VIZNAME_AR = [31mcol_character()[39m
+)
+"
+"0","HDXHistorical=read_csv(""HDX/covid-19 historical cases by country.csv"");"
+"2","Parsed with column specification:
+cols(
+  OBJECTID = [32mcol_double()[39m,
+  ADM0_NAME = [31mcol_character()[39m,
+  DateOfDataEntry = [34mcol_datetime(format = """")[39m,
+  cum_conf = [32mcol_double()[39m,
+  NewCase = [32mcol_double()[39m,
+  CENTER_LON = [32mcol_double()[39m,
+  CENTER_LAT = [32mcol_double()[39m,
+  ADM0_VIZ_NAME = [31mcol_character()[39m,
+  GUID = [31mcol_character()[39m,
+  Short_Name_ZH = [31mcol_character()[39m,
+  Short_Name_FR = [31mcol_character()[39m,
+  Short_Name_ES = [31mcol_character()[39m,
+  Short_Name_RU = [31mcol_character()[39m,
+  Short_Name_AR = [31mcol_character()[39m
+)
+"

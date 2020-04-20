@@ -1,0 +1,8 @@
+"0","CSSEGIcountry=data[[1]]%>%"
+"0","	filter(str_detect(`Last Update`,"".*/.*""))%>%"
+"0","	mutate(`Last Update`=lubridate::mdy_hm(`Last Update`));"
+"0",""
+"0","CSSEGIcountry=data[[1]]%>%"
+"0","	filter(str_detect(`Last Update`,"".*-.*""))%>%"
+"0","	mutate(`Last Update`=lubridate::ymd_hms(`Last Update`))%>%"
+"0","	dplyr::union(CSSEGIcountry);"

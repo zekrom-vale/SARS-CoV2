@@ -1,0 +1,6 @@
+"0","collection=ne_countries(returnclass=""sf"")%>%"
+"0","	inner_join(HDXCountry, by=c(name=""ADM0_NAME""));"
+"0","collection%>%"
+"0","	ggplot()+"
+"0","	geom_sf(aes(fill=cum_conf, frame=DateOfReport, ids=name));"
+"2","Ignoring unknown aesthetics: frame, ids"
