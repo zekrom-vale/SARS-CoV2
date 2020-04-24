@@ -136,6 +136,7 @@ predicted=mgcv::predict.gam(prdCon, predict);
 That works, just need to merge the data.  We can use ids and join on them.
 
 
+# Check for NAs
 
 Is there any NAs?
 ```{r}
@@ -144,3 +145,26 @@ CSSEGIcountry%>%
 ```
 Not that many, but that does not show the true missing gaps.
 
+Select the existing countries then cross join them with all the dates.
+```{r}
+courntry=CSSEGIcountry%>%
+	select(`Province/State`, `Country/Region`)%>%
+	unique();
+
+date=CSSEGIcountry%>%
+	select(date)%>%
+	unique();
+
+merge=courntry%>%
+	mutate(k=1)%>%
+	full_join(date%>%mutate(k=1), by='k')%>%
+	select(-k);
+
+all=merge%>%
+	left_join(CSSEGIcountry, by=c("Province/State", "Country/Region", "date"));
+
+all%>%
+	filter(is.na(Confirmed));
+```
+
+There 35,322 missing opservations.  They should be predicted to fill in the gaps.
