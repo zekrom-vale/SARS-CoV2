@@ -1,0 +1,23 @@
+---
+title: "Recover"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(plyr);
+library(tidyverse);
+library(lubridate);
+
+CSSEGIcountry=read_csv("data/CSSEGIcountry.csv");
+CSSEGIus=read_csv("data/CSSEGIus.csv");
+
+# FAILS!
+
+prdCon=dget("data/prdCon.robj");
+prdDea=dget("data/prdDea.robj");
+prdRec=dget("data/prdRec.robj");
+```

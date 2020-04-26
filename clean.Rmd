@@ -99,6 +99,14 @@ CSSEGIus=data[[2]]%>%
 	);
 ```
 
+# Save data
+As R keeps crashing, save the data.
+```{r}
+dir.create("data");
+write_csv(CSSEGIcountry, "data/CSSEGIcountry.csv");
+write_csv(CSSEGIus, "data/CSSEGIus.csv");
+```
+
 # Add missing data
 We need to predict each value that is unreported.  To do this let's plot them on a line graph.
 
@@ -129,7 +137,18 @@ prdRec=predict%>%
 	mgcv::gam(data=.,formula=Recovered~date+name);
 ```
 
+# Save the gam
+Calculating the gam takes a while so save the gam files and the image
 ```{r}
+dput(prdCon, file="data/prdCon.robj");
+dput(prdDea, file="data/prdDea.robj");
+dput(prdRec, file="data/prdRec.robj");
+
+save.image("~/R/SARS-CoV2/CSS.RData");
+```
+That is a lot of data, 32MB per file!
+
+```{r eval=FALSE}
 predicted=mgcv::predict.gam(prdCon, predict);
 ```
 
@@ -168,3 +187,72 @@ all%>%
 ```
 
 There 35,322 missing opservations.  They should be predicted to fill in the gaps.
+
+# Fill the gaps
+
+Add index to all then pass all to `mgcv::predict.gam()`
+```{r}
+all=all%>%
+	mutate(
+		n=1:n(),
+		name=paste(`Province/State`, `Country/Region`)
+	);
+
+con=prdCon%>%
+	mgcv::predict.gam(all);
+
+con=con%>%
+	as_tibble()%>%
+	mutate(n=1:n(), Confirmed=value, value=NULL);
+
+# Issue with new levels
+#dea=prdDea%>%
+#	mgcv::predict.gam(all);
+
+#dea=dea%>%
+#	as_tibble()%>%
+#	mutate(n=1:n());
+#err
+#rec=prdRec%>%
+#	mgcv::predict.gam(all);
+
+#rec=rec%>%
+#	as_tibble()%>%
+#	mutate(n=1:n());
+
+
+all=all%>%
+	inner_join(con, by='n', suffix=c('', '.prd'))#%>%
+	#inner_join(dea, by='n', suffix=c('', '.prd'))%>%
+	#inner_join(rec, by='n', suffix=c('', '.prd'));
+
+all%>%
+	mutate(
+		prdConfirmed=is.na(Confirmed),
+		Confirmed=ifelse(
+			is.na(Confirmed),
+			Confirmed.prd,
+			Confirmed
+		),
+		Confirmed.prd=NULL#,
+		
+		
+		#prdDeaths=is.na(Deaths),
+		#Deaths=ifelse(
+		#	is.na(Deaths),
+		#	Deaths.prd,
+		#	Deaths
+		#),
+		#Deaths.prd=NULL,
+		#
+		#prdRecovered=is.na(Recovered),
+		#Recovered=ifelse(
+		#	is.na(Recovered),
+		#	Recovered.prd,
+		#	Recovered
+		#),
+		#Recovered.prd=NULL
+	);
+
+write_csv(all, path="data/all.csv");
+```

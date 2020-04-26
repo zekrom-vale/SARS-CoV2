@@ -36,11 +36,12 @@ ggplotly();
 This takes forever as plotly is confused and shifts the countries around as there is missing data.
 ```{r}
 collection=ne_countries(returnclass="sf")%>%
-	left_join(data[[1]], by=c("name"="Country/Region"))
+	left_join(all, by=c("name"="Country/Region"))%>%
+	filter(`Province/State`%>%is.na()||`Province/State`==name)
 
 collection%>%
 	ggplot()+
-	geom_sf(aes(fill=Confirmed, frame=`Last Update`, ids=name));
+	geom_sf(aes(fill=Confirmed, frame=date, ids=name));
 ggplotly()%>%
 	animation_opts(
 		redraw=FALSE
