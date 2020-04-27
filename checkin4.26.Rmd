@@ -1,0 +1,22 @@
+---
+title: "Takeaway 4/26/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1.) I did not spend much time on pracing R as I am quite confident with dplyr and other R libraries.  Besides, I rather work on a project and lean as I go rather than doing example problems.  Although, I do look things up in the R documentation with `?` and that does take around 40% of the time it takes writing the code.
+
+2.) I spent the majority of the time writing and exicuting the code for the project.  Unfortunetly some parts of the code takes minutes and ggplotly takes literaly an hour to exicute.  I am starting to think that ggplotly is not a usable tool for the data I have in map form.
+
+This dataset has been the most unstable, casuing R to lock up or cause functions to error out.  One time `dplyr::mutate()` rejected `dplyr::n()`, saying it can only be used in a dataset context.  Restarting R fixed it, but I had to re run the code and that takes a while to run.
+
+I would expect it took me 4 hours to run the code and about 5 or 6 to write it and figure out the issues I was having.  I tried writing to a directory that did not exist, then I created it.  For some reason, the directory was not created, so it still did not work.  Too more than I would like to admit to solve that issue.  Another issue I had was with `dput()`, apperently reading the `mgcv::gam` `dput` data did not work, it failed to parce the expression.  As it was a 32MB file I was not supprised by the falure.  As an alternative, I am now saving an R image to shorten the recovery phase.
+
+I am also having issues with `mgcv::predict.gam()` with new levels as there where no death or recovery data assocated with the opservation.  As of now I am excluding these predictions, until I figure a way around this.  Ether with modifying the gam prediction or predicting.
+
+I have desided to transition to git as it will make finding the changes I make easy with multiple files.  I am using multiple files as they get long and makes it easy to run sections of code.
+
+3.) By the next check in I hope to get the prediction cleaned up and start graphing by not using ggplotly and the map as it takes too long and can fail.  I will also try graphing it without the recovery and death data and see what I can find.  I am also considering not using predictions, due to these complications and not that good of a prediction.  I also need to clean up some of the code so I will be deleating some code now that I am using git.  
