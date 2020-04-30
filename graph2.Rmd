@@ -1,0 +1,168 @@
+---
+title: "Graph 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(plotly);
+```
+
+```{r}
+CSSEGIcountry%>%
+	ggplot(aes(
+		Confirmed,
+		Recovered,
+		size=Deaths,
+		col=paste(`Country/Region`,`Province/State`),
+		alpha=date
+	))+
+	geom_point(show.legend=FALSE)+
+	geom_line(show.legend=FALSE, alpha=.2)+
+	scale_x_log10()+
+	scale_y_log10();
+ggplotly();
+```
+
+Too much data, use time instead of alpha for date
+
+This takes a while to generate, mainaly ggplotly.  Plus ggplotly lags R badly due to the size of the data.  Must use a popup, or it will not work well.
+```{r eval=FALSE}
+CSSEGIcountry%>%
+	mutate(name=paste(`Country/Region`,`Province/State`))%>%
+	ggplot(aes(
+		Confirmed,
+		Recovered,
+		size=Deaths,
+		col=name,
+		frame=date
+	))+
+	geom_point(show.legend=FALSE)+
+	scale_x_log10()+
+	scale_y_log10();
+plot=ggplotly();
+# Widget is so large, save it as HTML when done
+htmlwidgets::saveWidget(plot, "CSSEGIcountry2.html");
+```
+
+Too much data to use plotly.  plotly is too unoptomised to be used with this large of a data set.  It is just too laggy and unreliable to use and takes forever to render.  I need to find a different way to plot this data.
+
+
+To remove invalid values add one
+```{r}
+CSSEGIcountry%>%
+	ggplot(aes(
+		Confirmed+1,
+		Recovered+1,
+		size=Deaths+1,
+		col=paste(`Country/Region`,`Province/State`),
+		alpha=date
+	))+
+	geom_point(show.legend=FALSE)+
+	geom_line(show.legend=FALSE, alpha=.4)+
+	scale_x_log10()+
+	scale_y_log10();
+```
+
+There are still too much to see, remove the State data.
+
+Does not work, thinks it's an `and`
+```{r eval=FALSE}
+CSSEGIpure=CSSEGIcountry%>%
+	filter(
+		is.na(`Province/State`)
+		||
+		`Province/State`==`Country/Region`
+	);
+```
+
+```{r}
+CSSEGIpure=CSSEGIcountry%>%
+	filter(
+		is.na(`Province/State`)
+	)%>%
+	dplyr::union(
+		CSSEGIcountry%>%
+			filter(
+				`Province/State`==`Country/Region`
+			)
+	);
+```
+
+```{r}
+CSSEGIpure%>%
+	ggplot(aes(
+		Confirmed+1,
+		Recovered+1,
+		size=Deaths,
+		col=`Country/Region`,
+		alpha=date
+	))+
+	geom_point(show.legend=FALSE)+
+	geom_line(show.legend=FALSE, alpha=.4)+
+	scale_x_log10()+
+	scale_y_log10();
+```
+
+That was faster, let's see if plotly works now.  I honestly don't know if plotly cused my computer to crash or if it was somthing else.  The blue screen crash was `Unexpected Stop Code`, now I am conserned about the stability of this computer under this load.  Or it could just plotly causing the crash.  This project has been the most unstable project I have worked on period.  I am astonished that the computer actuaualy crashed while R was open and runing.  I do not know if it was working when the crash ocured, but I don't see anything else that could have caused it.
+
+```{r}
+CSSEGIpure%>%
+	ggplot(aes(
+		Confirmed+1,
+		Recovered+1,
+		size=Deaths,
+		col=`Country/Region`,
+		frame=date
+	))+
+	geom_point(show.legend=FALSE)+
+	scale_x_log10()+
+	scale_y_log10();
+plot=ggplotly()%>%
+  animation_opts(
+    1000, easing = "elastic", redraw = FALSE
+  );
+htmlwidgets::saveWidget(plot, "CSSEGIpure.html")
+```
+
+That is not doing anything with time...
+
+```{r}
+CSSEGIpure%>%
+	filter(`Country/Region`%in%c("US", "United Kingdom"))%>%
+	ggplot()+
+	geom_point(
+		aes(
+			Confirmed+1,
+			Recovered+1,
+			size=Deaths,
+			col=`Country/Region`,
+			frame=as.factor(date)
+		)
+	)+
+	scale_x_log10()+
+	scale_y_log10();
+plot=ggplotly()
+plot;
+```
+
+Turns out you need a factor!
+
+```{r}
+CSSEGIpure%>%
+	ggplot(aes(
+		Confirmed+1,
+		Recovered+1,
+		size=Deaths,
+		col=`Country/Region`,
+		frame=as.factor(date)
+	))+
+	geom_point(show.legend=FALSE)+
+	scale_x_log10()+
+	scale_y_log10();
+plot=ggplotly();
+htmlwidgets::saveWidget(plot, "CSSEGIpure.html")
+```
