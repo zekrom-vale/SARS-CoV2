@@ -158,6 +158,7 @@ CSSEGIpure%>%
 		Recovered+1,
 		size=Deaths,
 		col=`Country/Region`,
+		id=`Country/Region`,
 		frame=as.factor(date)
 	))+
 	geom_point(show.legend=FALSE)+
@@ -166,3 +167,46 @@ CSSEGIpure%>%
 plot=ggplotly();
 htmlwidgets::saveWidget(plot, "CSSEGIpure.html")
 ```
+
+Try it with all the data.
+
+```{r}
+CSSEGIcountry%>%
+	ggplot(aes(
+		Confirmed+1,
+		Recovered+1,
+		size=Deaths,
+		col=paste(`Country/Region`,`Province/State`),
+		frame=as.factor(date)
+	))+
+	geom_point(show.legend=FALSE)+
+	scale_x_log10()+
+	scale_y_log10();
+plot=ggplotly();
+htmlwidgets::saveWidget(plot, "CSSEGIcountry.html")
+```
+One issue is that the countries morph into eachother due to missing data.
+
+3:26-4:24
+```{r}
+CSSEGIcountry%>%
+	mutate(
+		name=paste(`Country/Region`,`Province/State`),
+		date=as.factor(date)
+	)%>%
+	ggplot(aes(
+		Confirmed+1,
+		Recovered+1,
+		size=Deaths,
+		col=name,
+		id=name,
+		frame=date
+	))+
+	geom_point(show.legend=FALSE)+
+	scale_x_log10()+
+	scale_y_log10();
+plot=ggplotly();
+htmlwidgets::saveWidget(plot, "CSSEGIcountry.html")
+```
+
+Now that I know this works let's try it again with the map data.
