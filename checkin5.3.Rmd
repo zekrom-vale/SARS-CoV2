@@ -1,0 +1,14 @@
+---
+title: "Check in 5/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1.) I did not work on any tutorials.
+
+2.) I spent the majority of time working on finding how to graph the data and rendering the graph.  In the begining I had many issues with crashing R and actualy blue screening my computer.  I am still unsure if R was the cause, but it has not happended since.  That made me not want to work on this project for a few days due to stability issues.  After I figured out that plotly does not like non-factors for frame, it has run much more sommothly.  Still it took 30 to 60 minutes to render a graph.  So coadig it took around 7 hours and rendering took around 3 hours.
+
+3.) By the next check in I hope to find a way to merge the countries' sf data with CSSEGIcountry, so I can try to visulise the data on a map.  Rendering this will take by far the longest as it has to deal with shapes and more.  Is there a way to shorten the time it takes to render these graphs?  Or is this a major flaw with R runing on one thread?
