@@ -15,7 +15,8 @@ library(lubridate);
 
 # Download and load Covid-19 Data from [HDX](https://data.humdata.org/dataset/coronavirus-covid-19-cases-data-for-china-and-the-rest-of-the-world)
 
-```{r download}
+This data is depreceated and I will not be using it due to that and RStudio Cloud being unable to donload the data.
+```{r download, eval=FALSE}
 download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=0&single=true&output=csv", "HDX/covid-19 cases by country.csv");
 
 download.file("https://docs.google.com/spreadsheets/d/e/2PACX-1vTBI8MZx7aNt8EjYqkeojTopZKwSYGWCSKUzyS9xobrS5Tfr9SQZ_4hrp3dv6bRGkHk2dld0wRrJIeV/pub?gid=32379430&single=true&output=csv", "HDX/covid-19 historical cases by country.csv");
@@ -34,7 +35,7 @@ file.remove("CSSEGISandData COVID-19.zip");
 ```
 
 # Load HDX Data
-```{r load}
+```{r load, eval=FALSE}
 HDXCountry=read_csv("HDX/covid-19 cases by country.csv");
 HDXChina=read_csv("HDX/covid-19 china cases by adm 1.csv");
 HDXHistorical=read_csv("HDX/covid-19 historical cases by country.csv");

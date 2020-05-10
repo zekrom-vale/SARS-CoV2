@@ -11,6 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 library(plotly);
 ```
 
+# WARNING THIS TAKES A LONG TIME TO RENDER (30 min to 60+ min)
+# WARNING!!!!!  THIS PREVIOUSLY BLUE SCREENED MY COMPUTER!
+
 ```{r}
 CSSEGIcountry%>%
 	ggplot(aes(
@@ -87,7 +90,10 @@ CSSEGIpure=CSSEGIcountry%>%
 	dplyr::union(
 		CSSEGIcountry%>%
 			filter(
-				`Province/State`==`Country/Region`
+			# Fix factor issue
+					as.character(`Province/State`)
+				==
+					as.character(`Country/Region`)
 			)
 	);
 ```
@@ -210,3 +216,227 @@ htmlwidgets::saveWidget(plot, "CSSEGIcountry.html")
 ```
 
 Now that I know this works let's try it again with the map data.
+
+```{r eval=FALSE}
+# Do a conditional join by a cross join and filter
+# Cross jon is joining on a temporary column
+cross=rnaturalearth::ne_countries(returnclass="sf")%>%
+	mutate(k=1)%>%
+	full_join(
+		CSSEGIcountry%>%
+			mutate(k=1),
+		on='k'
+	)%>%
+	select(-k);
+# Even this takes a while
+cross%>%
+	filter(
+		
+	);
+```
+
+```{r}
+rnaturalearth::ne_countries(returnclass="sf")%>%
+	as_tibble()
+CSSEGIpure
+```
+
+That is taking too long, so instead inner_join multiple times and then union them.
+```{r}
+join=list();
+
+join[[1]]=rnaturalearth::ne_countries(returnclass="sf")%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(name='Country/Region')
+	)
+
+join[[2]]=rnaturalearth::ne_countries(returnclass="sf")%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(name_long='Country/Region')
+	)
+
+join[[3]]=rnaturalearth::ne_countries(returnclass="sf")%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(brk_name='Country/Region')
+	)
+
+join[[4]]=rnaturalearth::ne_countries(returnclass="sf")%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(postal='Country/Region')
+	)
+
+join[[5]]=rnaturalearth::ne_countries(returnclass="sf")%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(abbrev='Country/Region')
+	)
+
+join[[6]]=rnaturalearth::ne_countries(returnclass="sf")%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(formal_en='Country/Region')
+	)
+```
+
+```{r}
+join[[1]]%>%
+	dplyr::union(
+		join[[2]]
+	)
+
+```
+
+```{r}
+test1=join[[1]]%>%
+		head(1)%>%
+		select(geometry);
+
+test2=join[[2]]%>%
+		head(1)%>%
+		select(geometry);
+
+dput(test1)%>%
+	clipr::write_clip();
+
+dput(test2)%>%
+	clipr::write_clip();
+```
+
+
+```{r eval=FALSE}
+library(tidyverse);
+test1=list(list(c(61.2108170917257, 62.2306514830059, 62.9846623065766, 63.1935384459004, 63.9828959491587, 64.5464791197339, 64.7461051776774, 65.5889477883578, 65.7456307310668, 66.2173848814593, 66.5186068052887, 67.0757820982596, 67.8299996275595, 68.1355623717014, 68.8594458352459, 69.1962728209244, 69.518785434858, 70.1165784036103, 70.2705741718401, 70.3763041523093, 70.8068205097329, 71.3481311379903, 71.2394039244482, 71.5419177590848, 71.4486934752302, 71.8446382994506, 72.1930408059624, 72.6368896829173, 
+73.260055779925, 73.9486959166465, 74.9800024758954, 75.1580277851409, 74.575892775373, 74.0675517109178, 72.9200248554445, 71.8462919452839, 71.2623482603857, 71.4987679381211, 71.6130762063507, 71.1150187519216, 71.1567733092135, 70.8818030129884, 69.9305432473596, 70.3235941913716, 69.6871472512649, 69.2625220071226, 69.3177641132426, 68.9266768736577, 68.5569320006093, 67.7926892434448, 67.6833935891475, 66.9388912291185, 66.381457553986, 66.3464726093244, 65.0468620136161, 64.3504187356185, 
+64.1480021503313, 63.5502608580112, 62.5498568052728, 60.8742484882088, 61.7812215513634, 61.6993144061808, 60.9419446145111, 60.863654819589, 60.5360779152908, 60.963700392506, 60.5284298033116, 60.8031933938074, 61.2108170917257, 35.6500723333092, 35.2706639674223, 35.4040408391676, 35.8571656357189, 36.0079574651466, 36.3120732691843, 37.1118177353333, 37.3052167831856, 37.6611640488121, 37.3937901881339, 37.3627843287588, 37.3561439072093, 37.1449940048647, 37.0231151393043, 37.3443358424306, 
+37.1511435003074, 37.6089966904134, 37.5882227646321, 37.735164699854, 38.1383959010275, 38.4862816432164, 38.2589053411322, 37.9532650823419, 37.9057744410656, 37.0656448430805, 36.7381712916469, 36.9482876653457, 37.0475580917784, 37.495256862939, 37.4215662704908, 37.4199901393059, 37.1330309107891, 37.0208413762835, 36.8361756454885, 36.7200070256963, 36.5099423284299, 36.0743875188578, 35.650563259416, 35.1532034368229, 34.7331257187222, 34.3489114446322, 33.9888559026385, 34.0201201441751, 
+33.3585326197584, 33.1054989690412, 32.5019440780883, 31.9014122584244, 31.6201891138921, 31.713310044882, 31.5829304062096, 31.3031542017814, 31.3049112004794, 30.7388992375865, 29.8879434270362, 29.4721806910319, 29.5600306259281, 29.340819200146, 29.4683307968262, 29.3185724960443, 29.8292389999526, 30.7358503280812, 31.3795061304927, 31.5480746526288, 32.1829196233344, 32.9812688258116, 33.5288323023763, 33.676446031218, 34.4041018743199, 35.6500723333092)))
+
+test2=list(list(c(61.2108170917257, 62.2306514830059, 62.9846623065766, 63.1935384459004, 63.9828959491587, 64.5464791197339, 64.7461051776774, 65.5889477883578, 65.7456307310668, 66.2173848814593, 66.5186068052887, 67.0757820982596, 67.8299996275595, 68.1355623717014, 68.8594458352459, 69.1962728209244, 69.518785434858, 70.1165784036103, 70.2705741718401, 70.3763041523093, 70.8068205097329, 71.3481311379903, 71.2394039244482, 71.5419177590848, 71.4486934752302, 71.8446382994506, 72.1930408059624, 72.6368896829173, 
+73.260055779925, 73.9486959166465, 74.9800024758954, 75.1580277851409, 74.575892775373, 74.0675517109178, 72.9200248554445, 71.8462919452839, 71.2623482603857, 71.4987679381211, 71.6130762063507, 71.1150187519216, 71.1567733092135, 70.8818030129884, 69.9305432473596, 70.3235941913716, 69.6871472512649, 69.2625220071226, 69.3177641132426, 68.9266768736577, 68.5569320006093, 67.7926892434448, 67.6833935891475, 66.9388912291185, 66.381457553986, 66.3464726093244, 65.0468620136161, 64.3504187356185, 
+64.1480021503313, 63.5502608580112, 62.5498568052728, 60.8742484882088, 61.7812215513634, 61.6993144061808, 60.9419446145111, 60.863654819589, 60.5360779152908, 60.963700392506, 60.5284298033116, 60.8031933938074, 61.2108170917257, 35.6500723333092, 35.2706639674223, 35.4040408391676, 35.8571656357189, 36.0079574651466, 36.3120732691843, 37.1118177353333, 37.3052167831856, 37.6611640488121, 37.3937901881339, 37.3627843287588, 37.3561439072093, 37.1449940048647, 37.0231151393043, 37.3443358424306, 
+37.1511435003074, 37.6089966904134, 37.5882227646321, 37.735164699854, 38.1383959010275, 38.4862816432164, 38.2589053411322, 37.9532650823419, 37.9057744410656, 37.0656448430805, 36.7381712916469, 36.9482876653457, 37.0475580917784, 37.495256862939, 37.4215662704908, 37.4199901393059, 37.1330309107891, 37.0208413762835, 36.8361756454885, 36.7200070256963, 36.5099423284299, 36.0743875188578, 35.650563259416, 35.1532034368229, 34.7331257187222, 34.3489114446322, 33.9888559026385, 34.0201201441751, 
+33.3585326197584, 33.1054989690412, 32.5019440780883, 31.9014122584244, 31.6201891138921, 31.713310044882, 31.5829304062096, 31.3031542017814, 31.3049112004794, 30.7388992375865, 29.8879434270362, 29.4721806910319, 29.5600306259281, 29.340819200146, 29.4683307968262, 29.3185724960443, 29.8292389999526, 30.7358503280812, 31.3795061304927, 31.5480746526288, 32.1829196233344, 32.9812688258116, 33.5288323023763, 33.676446031218, 34.4041018743199, 35.6500723333092)))
+
+
+dplyr::union(test1, test2)
+# This now works due to deserilization and lack of typing in dput
+```
+
+```{r}
+library(tidyverse);
+library(rnaturalearth);
+rnaturalearth::ne_countries(returnclass="sf")%>%
+	dplyr::union(
+		ne_countries(returnclass="sf")
+	)
+```
+
+# Replace geom with an ID to add it back latter
+
+```{r}
+join=list();
+
+# Should be a tible so that dplyr works better
+ne_co=rnaturalearth::ne_countries(returnclass="sf")%>%
+	as_tibble()%>%
+	mutate(id=1:n());
+
+ne_geo=ne_co%>%
+	select(id, geometry);
+
+ne_co=ne_co%>%
+	select(-geometry);
+
+join[[1]]=ne_co%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(name='Country/Region')
+	)
+
+join[[2]]=ne_co%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(name_long='Country/Region')
+	)
+
+join[[3]]=ne_co%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(brk_name='Country/Region')
+	)
+
+join[[4]]=ne_co%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(postal='Country/Region')
+	)
+
+join[[5]]=ne_co%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(abbrev='Country/Region')
+	)
+
+join[[6]]=ne_co%>%
+	inner_join(
+		CSSEGIpure,
+		by=c(formal_en='Country/Region')
+	)
+```
+
+
+```{r}
+join=join[[1]]%>%
+	dplyr::union(join[[2]])%>%
+	dplyr::union(join[[3]])%>%
+	dplyr::union(join[[4]])%>%
+	dplyr::union(join[[5]])%>%
+	dplyr::union(join[[6]]);
+
+join=join%>%
+	inner_join(ne_geo, by="id")%>%
+	select(-id);
+```
+That worked fine!
+May need to convrt back to an sf object
+
+# Now we can try to graph it
+
+This will likely take longer than the pervious graph as it has more data to deal with.
+
+### NOTE: This does not end up to work, the wiget is too laggy and even crashed mozzila.
+
+```{r}
+join%>%
+	select(name,Confirmed,date,geometry)%>%
+	mutate(
+		name=as.factor(name),
+		date=as.factor(date)
+	)%>%
+	ggplot(aes(
+		fill=Confirmed,
+		id=name,
+		frame=date,
+		geometry=geometry
+	))+
+	geom_sf();
+plot=ggplotly();
+htmlwidgets::saveWidget(plot, "CSSEGImap.html")
+```
+
+This works, but in HTML it lages soo much!  It is imposible to see what is going on.  It is a shame.  I had to close Firefox because of this wiget.  Good thing I though of using a second browser.
+
+Lets see if changing the options helps it
+```{r}
+plot%>%
+	animation_opts(
+		redraw=FALSE
+	);
+htmlwidgets::saveWidget(plot, "CSSEGImap2.html")
+```
+
+I don't even know if it is better, it still takes a long time to animate.  So it turns out that ggplotly is a bad way to aminate sf graphs.

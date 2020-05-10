@@ -122,6 +122,8 @@ CSSEGIcountry%>%
 	geom_smooth(show.legend=FALSE, na.rm=TRUE, method=mgcv::gam, se=FALSE);
 ```
 
+### WARNING This takes a LONG time to generate and is not used in the long run
+
 ```{r}
 predict=CSSEGIcountry%>%
 	mutate(name=paste(`Province/State`, `Country/Region`))%>%
@@ -138,13 +140,14 @@ prdRec=predict%>%
 ```
 
 # Save the gam
-Calculating the gam takes a while so save the gam files and the image
+This does not work and cannot load via `dget()`.
+So instead save the image
 ```{r}
-dput(prdCon, file="data/prdCon.robj");
-dput(prdDea, file="data/prdDea.robj");
-dput(prdRec, file="data/prdRec.robj");
+# dput(prdCon, file="data/prdCon.robj");
+# dput(prdDea, file="data/prdDea.robj");
+# dput(prdRec, file="data/prdRec.robj");
 
-save.image("~/R/SARS-CoV2/CSS.RData");
+save.image("~/programming/R/SARS-CoV2/CSS.RData")
 ```
 That is a lot of data, 32MB per file!
 
@@ -189,6 +192,7 @@ all%>%
 There 35,322 missing opservations.  They should be predicted to fill in the gaps.
 
 # Fill the gaps
+This takes way too long and does not work for the last two as there are missing predictions for some countries.  This should have been easy to fix, but I don't know how
 
 Add index to all then pass all to `mgcv::predict.gam()`
 ```{r}

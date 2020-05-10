@@ -13,6 +13,9 @@ library(USAboundaries);
 library(rnaturalearth);
 ```
 
+# WARNING! THIS TAKES A LONG TIME TO RENDER
+Check the html files to save time
+
 ```{r}
 collection=ne_countries(returnclass="sf")%>%
 	inner_join(HDXCountry, by=c(name="ADM0_NAME"));
