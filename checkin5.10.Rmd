@@ -9,6 +9,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 1.) I spent around an hour working on practices, the ggplot exersizes.  They were not that exciting and honestly quite ovious.  It was just revewing the ggplot basics and covered nothing much of interest, so I did give up on those examples.
 
+https://rstudio.cloud/project/1252108
+
 2.) I spent around 3 hours coding, and 2+ hours rendering plotly graphs and trying to interact with them.  That did not go to plan.  They rendered fine, but when I got to working with them in the browser they were super laggy and unresponcive when I played the animation.  I have now concluded that plotly is not ready to animate midium sized data sets.  It is qute unfortunet that I did not get many uesful graphs for the COVID-19 data.  Then again this semester was a mess from COVID-19 sending us all home and then the problems with my computer.  I am ready to be done with this "cursed" project.
 
 It is honestly unfutunet that I keep running into issues every data science class.  It appears that I have issues with the size of my data and how to handel big data as R is unable to handel it.  Is this an issue with R or all data science tools.  Could this be an issue with it runing on only one theread?
