@@ -1,0 +1,15 @@
+---
+title: "Master"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+file.edit("resource.Rmd");
+file.edit("clean.Rmd");
+file.edit("graph.Rmd");
+file.edit("graph2.Rmd");
+```
